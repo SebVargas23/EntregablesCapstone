@@ -25,8 +25,13 @@ SECRET_KEY = 'django-insecure-%j^l+^6=ulb)ogd9rs4c%fv&q-b(ljaa7g49z=g5peeq#t^6w_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['heron-eminent-starling.ngrok-free.app',
+                 '127.0.0.1',
+                 'localhost'
+                 ]
 
+# ngrok http --url=heron-eminent-starling.ngrok-free.app 8000
+# codigo para iniciar tunel ngrok
 
 # Application definition
 
@@ -39,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'knox',
+    'corsheaders',
     'drf_yasg',
     'apps.autenticacion',
     'apps.tickets',
@@ -60,6 +66,7 @@ REST_FRAMEWORK = {
     
 }
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,6 +74,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'https://heron-eminent-starling.ngrok-free.app',
+    'https://127.0.0.1:8000',
+    'http://localhost:8000'
 ]
 
 ROOT_URLCONF = 'api.urls'
