@@ -20,7 +20,7 @@ class Departamento(models.Model):
     nom_departamento = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.nom_departamento    
+        return self.nom_departamento   
       
 class Cargo(models.Model):
     nom_cargo = models.CharField(max_length=255)
@@ -75,7 +75,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     nom_usuario = models.CharField(max_length=255)
     correo = models.EmailField(unique=True, max_length=255)
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, null=True)
+    cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Indica si puede acceder al panel de administración
     is_superuser = models.BooleanField(default=False)  # Bandera para superusuario
@@ -93,3 +93,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.nom_usuario
+
+    @property
+    def id(self):
+        return self.rut_usuario

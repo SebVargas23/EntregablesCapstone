@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from rest_framework import generics
 from .models import Usuario
+from .models import Cargo, Departamento
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -49,3 +51,14 @@ class UsuarioSerializer(serializers.ModelSerializer):
         if not (value.isdigit() or value.lower() == 'k'):
             raise serializers.ValidationError("El dígito verificador debe ser un número o 'K'.")
         return value
+
+
+class CargoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cargo
+        fields = ['id', 'nom_cargo', 'departamento']
+
+class DepartamentoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Departamento
+        fields = ['id', 'nom_departamento']

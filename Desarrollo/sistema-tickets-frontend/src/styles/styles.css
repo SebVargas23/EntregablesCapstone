@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Anton', sans-serif;
+    background: linear-gradient(to bottom, #3B2069, #7E3DC5);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+  }
+  
+  .registration-container {
+    background: url('../imagenes/fondologin.jpg') no-repeat center center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .registration-box {
+    background: rgba(255, 255, 255, 0.8); /* Cambiado a más opaco para mejor legibilidad */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 320px;
+  }
+  
+  .registration-box h2 {
+    margin-bottom: 20px;
+    color: rgb(0, 0, 0);
+  }
+  
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    background: rgba(255, 255, 255, 0.7); /* Cambiado para más legibilidad */
+    border: none;
+    border-radius: 25px;
+    color: rgb(0, 0, 0);
+    outline: none;
+  }
+  
+  .input-group .icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #000; /* Color del icono */
+  }
+  
+  .button-group {
+    margin-top: 20px; /* Agregar margen superior para separación */
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #20035f;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #8F79BA;
+  }
+  
+  p {
+    margin-top: 10px;
+  }
+  
+  p a {
+    color: #B19CD9;
+    text-decoration: none;
+  }

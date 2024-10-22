@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserCreateSerializer
 from rest_framework import generics
+from .models import Cargo
+from .serializers import CargoSerializer
 
 class LoginView(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
@@ -33,3 +35,8 @@ class RegistroView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
+class CargoListAPIView(generics.ListAPIView):
+    queryset = Cargo.objects.all()
+    serializer_class = CargoSerializer
+    permission_classes = (permissions.AllowAny,)
