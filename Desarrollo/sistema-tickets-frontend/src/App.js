@@ -1,31 +1,28 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'; // Asegúrate de que la ruta sea correcta
+import './App.css';
 import RegistroUsuario from './components/RegistroUsuario';
-import Login from './components/Login'; // Importa el componente Login
-import Tickets from './components/Tickets'; // Importa el componente Tickets
+import Login from './components/Login';
+import Tickets from './components/Tickets';
+import TicketsList from './components/TicketsList';
+import EditTicket from './components/EditTicket';
 
 function App() {
-    return (
-        <Router>
-            <div className="app-container">
-                <Routes>
-                    {/* Ruta para el registro de usuario */}
-                    <Route path="/registro" element={<RegistroUsuario />} />
-                    
-                    {/* Ruta para el login */}
-                    <Route path="/login" element={<Login />} />
-                    
-                    {/* Ruta para crear tickets */}
-                    <Route path="/tickets" element={<Tickets />} />
-                    
-                    {/* Redireccionar a /login si no se encuentra la ruta */}
-                    <Route path="*" element={<Login />} />
-                </Routes>
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/registro" element={<RegistroUsuario />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/tickets" element={<Tickets />} />
+          <Route path="/tickets-list" element={<TicketsList />} />
+          <Route path="/tickets/edit/:id" element={<EditTicket />} /> {/* Cambiado a 'element' */}
+          {/* Redirección al login si la ruta no existe */}
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

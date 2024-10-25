@@ -4,9 +4,14 @@ from apps.autenticacion.models import Departamento, Cargo
 from .serializers import (
     DepartamentoSerializer, CargoSerializer, CategoriaSerializer, 
     EstadoSerializer, PrioridadSerializer, ServicioSerializer, 
-    TicketSerializer, DetalleUsuarioTicketSerializer, FechaTicketSerializer
+    TicketSerializer, DetalleUsuarioTicketSerializer, FechaTicketSerializer,CategoriaSerializer, 
+    PrioridadSerializer, EstadoSerializer,TicketSerializer
 )
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.generics import RetrieveAPIView
 # Departamento Views
 class DepartamentoListCreateView(generics.ListCreateAPIView):
     queryset = Departamento.objects.all()
@@ -75,6 +80,18 @@ class DetalleUsuarioTicketListCreateView(generics.ListCreateAPIView):
     queryset = DetalleUsuarioTicket.objects.all()
     serializer_class = DetalleUsuarioTicketSerializer
 
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = self.get_queryset()
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"Error al obtener tickets: {e}")  # Verifica la traza del error
+            return Response(
+                {"error": "Error al obtener los tickets"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
 class DetalleUsuarioTicketDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = DetalleUsuarioTicket.objects.all()
     serializer_class = DetalleUsuarioTicketSerializer
@@ -87,3 +104,60 @@ class FechaTicketListCreateView(generics.ListCreateAPIView):
 class FechaTicketDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = FechaTicket.objects.all()
     serializer_class = FechaTicketSerializer
+
+# OpcionesTicket Views
+class CategoriaList(generics.ListAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class PrioridadList(generics.ListAPIView):
+    queryset = Prioridad.objects.all()
+    serializer_class = PrioridadSerializer
+
+class EstadoList(generics.ListAPIView):
+    queryset = Estado.objects.all()
+    serializer_class = EstadoSerializer
+
+class ServicioListView(generics.ListAPIView):
+    queryset = Servicio.objects.all()
+    serializer_class = ServicioSerializer
+
+class TicketCreateView(generics.CreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    
+    def create(self, request, *args, **kwargs):
+        print("Datos recibidos:", request.data)  # Para verificar los datos que llegan
+        return super().create(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        # Crear el ticket
+        ticket = serializer.save()
+        # Crear la fecha de creación asociada al ticket
+        FechaTicket.objects.create(
+            ticket=ticket,
+            tipo_fecha='Creacion'
+        )
+class TicketListView(APIView):
+    permission_classes = [IsAuthenticated]  # Opcional
+
+    def get(self, request):
+        tickets = Ticket.objects.all()
+        serializer = TicketSerializer(tickets, many=True)
+        return Response(serializer.data)
+    
+class TicketDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
+class CategoriaListView(generics.ListAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class PrioridadListView(generics.ListAPIView):
+    queryset = Prioridad.objects.all()
+    serializer_class = PrioridadSerializer
+
+class ServicioListView(generics.ListAPIView):
+    queryset = Servicio.objects.all()
+    serializer_class = ServicioSerializer

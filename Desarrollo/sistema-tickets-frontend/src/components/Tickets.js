@@ -1,57 +1,236 @@
-// src/components/ticket.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../App.css'; // Asegúrate de que la ruta sea correcta
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate para redirección
+import '../App.css';
+import logo from '../imagenes/Puma-logo-1.png'; // Asegúrate de que la ruta a la imagen sea correcta
+
+// Componente Header
+const Header = ({ nombreUsuario }) => (
+  <header className="header">
+    <img src={logo} alt="Header" className="header-image" />
+    <nav className="header-nav">
+      <ul>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/tickets">Tickets</Link></li>
+        <li><Link to="/reportes">Reportes</Link></li>
+        <li><Link to="/configuracion">Configuración</Link></li>
+        <li><Link to="/ayuda">Ayuda</Link></li>
+      </ul>
+    </nav>
+    <div className="header-usuario">{nombreUsuario}</div>
+  </header>
+);
 
 const Ticket = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Redirige si es necesario
+    const [formData, setFormData] = useState({
+        titulo: '',
+        comentario: '',
+        categoria: '',
+        prioridad: '',
+        estado: 'Abierto', // Estado predeterminado
+        servicio: '',
+    });
 
-    const handleBackToLogin = () => {
-        navigate('/login');
+    const [categorias, setCategorias] = useState([]);
+    const [prioridades, setPrioridades] = useState([]);
+    const [servicios, setServicios] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const nombreUsuario = 'Carlitos Palacios'; // Simulación de nombre de usuario
+
+    // Carga inicial de categorías, prioridades y servicios
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const [categoriasRes, prioridadesRes, serviciosRes] = await Promise.all([
+                    axios.get('http://127.0.0.1:8000/api/categorias/'),
+                    axios.get('http://127.0.0.1:8000/api/prioridades/'),
+                    axios.get('http://127.0.0.1:8000/api/servicios/'),
+                ]);
+                setCategorias(categoriasRes.data);
+                setPrioridades(prioridadesRes.data);
+                setServicios(serviciosRes.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Error al cargar los datos. Por favor, inténtelo de nuevo.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // Manejar el cambio en el campo categoría y seleccionar servicio relacionado
+    const handleCategoryChange = (e) => {
+        const { value } = e.target;
+        const selectedService = servicios.find(
+            (servicio) => servicio.categoria_id === parseInt(value)
+        );
+        setFormData((prevData) => ({
+            ...prevData,
+            categoria: value,
+            servicio: selectedService ? selectedService.id : '',
+        }));
+    };
+
+    // Manejar los cambios en los campos del formulario
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // Manejar el envío del formulario
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newErrors = {};
+
+        // Validaciones
+        if (!formData.titulo) newErrors.titulo = 'El título es obligatorio.';
+        if (!formData.categoria) newErrors.categoria = 'Seleccione una categoría.';
+        if (!formData.prioridad) newErrors.prioridad = 'Seleccione una prioridad.';
+        if (!formData.servicio) newErrors.servicio = 'Seleccione un servicio.';
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Debe iniciar sesión.');
+                navigate('/login'); // Redirigir si no hay token
+                return;
+            }
+
+            // Crear el ticket
+            await axios.post('http://127.0.0.1:8000/api/tickets/', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Reiniciar el formulario y errores
+            setFormData({
+                titulo: '',
+                comentario: '',
+                categoria: '',
+                prioridad: '',
+                estado: 'Abierto',
+                servicio: '',
+            });
+            setErrors({});
+
+            // Redirigir a la lista de tickets
+            navigate('/tickets-list');
+        } catch (error) {
+            console.error('Error al crear el ticket:', error);
+            alert('Hubo un problema al crear el ticket.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="ticket-container">
-            {/* Botón para volver al login */}
-            <button className="back-button" onClick={handleBackToLogin}>
-                Volver al Login
-            </button>
-            
-            <h2>Crear Ticket</h2>
-            <form>
-                <div>
-                    <label>Título</label>
-                    <input type="text" name="titulo" required />
+        <div className="tickets-container">
+            <Header nombreUsuario={nombreUsuario} /> {/* Agregué el Header */}
+            {loading && <p>Cargando...</p>}
+            <form className="ticket-form" onSubmit={handleSubmit}>
+                <h2>🎫 Crear Ticket</h2>
+
+                {/* Título */}
+                <div className="input-group">
+                    <label htmlFor="titulo">📝 Título</label>
+                    <input
+                        type="text"
+                        name="titulo"
+                        value={formData.titulo}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.titulo && <span className="error">{errors.titulo}</span>}
                 </div>
-                <div>
-                    <label>Comentario Resolución</label>
-                    <textarea name="comentario" required></textarea>
+
+                {/* Comentario */}
+                <div className="input-group">
+                    <label htmlFor="comentario">💬 Comentario</label>
+                    <textarea
+                        name="comentario"
+                        value={formData.comentario}
+                        onChange={handleChange}
+                        rows="4"
+                        required
+                    ></textarea>
                 </div>
-                <div>
-                    <label>Categoría</label>
-                    <select name="categoria">
-                        <option value="soporte_tecnico">Soporte Técnico</option>
-                        <option value="diagnostico_tecnico">Diagnóstico Técnico</option>
-                        {/* Otras categorías si es necesario */}
+
+                {/* Categoría */}
+                <div className="input-group">
+                    <label htmlFor="categoria">📂 Categoría</label>
+                    <select
+                        name="categoria"
+                        value={formData.categoria}
+                        onChange={handleCategoryChange}
+                        required
+                    >
+                        <option value="">Seleccione una categoría</option>
+                        {categorias.map((c) => (
+                            <option key={c.id} value={c.id}>
+                                {c.nom_categoria}
+                            </option>
+                        ))}
                     </select>
+                    {errors.categoria && <span className="error">{errors.categoria}</span>}
                 </div>
-                <div>
-                    <label>Prioridad</label>
-                    <select name="prioridad">
-                        <option value="alta">Alta</option>
-                        <option value="media">Media</option>
-                        <option value="baja">Baja</option>
+
+                {/* Prioridad */}
+                <div className="input-group">
+                    <label htmlFor="prioridad">⚡ Prioridad</label>
+                    <select
+                        name="prioridad"
+                        value={formData.prioridad}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Seleccione una prioridad</option>
+                        {prioridades.map((p) => (
+                            <option key={p.id} value={p.id}>
+                                {p.num_prioridad}
+                            </option>
+                        ))}
                     </select>
+                    {errors.prioridad && <span className="error">{errors.prioridad}</span>}
                 </div>
-                <div>
-                    <label>Estado</label>
-                    <select name="estado">
-                        <option value="abierto">Abierto</option>
-                        <option value="cerrado">Cerrado</option>
+
+                {/* Servicio */}
+                <div className="input-group">
+                    <label htmlFor="servicio">🔧 Servicio</label>
+                    <select
+                        name="servicio"
+                        value={formData.servicio}
+                        onChange={handleChange} // Permitir selección manual si es necesario
+                    >
+                        <option value="">Seleccione un servicio</option>
+                        {servicios.map((s) => (
+                            <option key={s.id} value={s.id}>
+                                {s.titulo_servicio}
+                            </option>
+                        ))}
                     </select>
+                    {errors.servicio && <span className="error">{errors.servicio}</span>}
                 </div>
-                <button type="submit">Crear Ticket</button>
+
+                <button type="submit">🚀 Crear Ticket</button>
             </form>
+
+            <Link to="/tickets-list" className="view-tickets-link">
+                📋 Ver Lista de Tickets
+            </Link>
         </div>
     );
 };

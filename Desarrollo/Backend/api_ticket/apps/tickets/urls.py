@@ -1,4 +1,3 @@
-from rest_framework.routers import DefaultRouter
 from django.urls import path
 from .views import (
     DepartamentoListCreateView, DepartamentoDetailView,
@@ -9,18 +8,19 @@ from .views import (
     ServicioListCreateView, ServicioDetailView,
     TicketListCreateView, TicketDetailView,
     DetalleUsuarioTicketListCreateView, DetalleUsuarioTicketDetailView,
-    FechaTicketListCreateView, FechaTicketDetailView
+    FechaTicketListCreateView, FechaTicketDetailView,
+    TicketCreateView, ServicioListView, TicketListView
 )
 
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
+    TokenObtainPairView, TokenRefreshView,
 )
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+# Configuración de la vista del esquema
 schema_view = get_schema_view(
     openapi.Info(
         title="API",
@@ -33,8 +33,6 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-# Creamos un router
-
 
 # Definimos rutas con path
 urlpatterns = [
@@ -65,14 +63,17 @@ urlpatterns = [
     path('fechas-tickets/', FechaTicketListCreateView.as_view(), name='fecha-ticket-list-create'),
     path('fechas-tickets/<int:pk>/', FechaTicketDetailView.as_view(), name='fecha-ticket-detail'),
 
-    # Ruta para obtener el token
+    # Rutas para obtener el token
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # Ruta para refrescar el token
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    # Otras rutas de tu API
+    # Rutas de documentación de la API
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
 
-DEBUG = True
+
+    path('api/categorias/', CategoriaListCreateView.as_view(), name='categoria-list-create'),
+    path('api/prioridades/', PrioridadListCreateView.as_view(), name='prioridad-list-create'),
+    path('api/servicios/', ServicioListCreateView.as_view(), name='servicio-list-create'),
+
+]

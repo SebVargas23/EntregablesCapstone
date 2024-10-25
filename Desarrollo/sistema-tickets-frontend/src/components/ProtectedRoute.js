@@ -8,3 +8,8 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+
+
+// Con esto, cuando intentes acceder a /tickets 
+//sin estar autenticado, 
+//serás redirigido a la página de login.
