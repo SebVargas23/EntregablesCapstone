@@ -1,5 +1,5 @@
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from django.urls import path
 from .views import (
     DepartamentoListCreateView, DepartamentoDetailView,
     CargoListCreateView, CargoDetailView,
@@ -14,6 +14,8 @@ from .views import (
 
 # Creamos un router
 
+router = DefaultRouter()
+router.register(r'usuarios', DetalleUsuarioTicketDetailView)
 
 # Definimos rutas con path
 urlpatterns = [

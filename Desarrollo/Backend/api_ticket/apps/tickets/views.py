@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .models import Categoria, Estado, Prioridad, Servicio, Ticket, DetalleUsuarioTicket, FechaTicket
 from apps.autenticacion.models import Departamento, Cargo
 from .serializers import (
@@ -75,9 +75,11 @@ class DetalleUsuarioTicketListCreateView(generics.ListCreateAPIView):
     queryset = DetalleUsuarioTicket.objects.all()
     serializer_class = DetalleUsuarioTicketSerializer
 
+#------ACA ES--------
 class DetalleUsuarioTicketDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = DetalleUsuarioTicket.objects.all()
     serializer_class = DetalleUsuarioTicketSerializer
+#--------------------
 
 # FechaTicket Views
 class FechaTicketListCreateView(generics.ListCreateAPIView):
