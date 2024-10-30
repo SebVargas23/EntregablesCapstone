@@ -62,3 +62,27 @@ class DepartamentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Departamento
         fields = ['id', 'nom_departamento']
+"""
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Agregar el RUT al token si es necesario
+        token['rut_usuario'] = user.rut_usuario
+        return token
+
+    def validate(self, attrs):
+        # Ajustar para autenticar con el correo y rut_usuario
+        correo = attrs.get('correo')
+        password = attrs.get('password')
+
+        try:
+            user = Usuario.objects.get(correo=correo)
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError('Credenciales inválidas.')
+
+        if not user.check_password(password):
+            raise serializers.ValidationError('Credenciales inválidas.')
+
+        return super().validate(attrs)
+"""

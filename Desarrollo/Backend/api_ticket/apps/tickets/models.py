@@ -30,13 +30,14 @@ class Estado(models.Model):
 class Servicio(models.Model):
     titulo_servicio = models.CharField(max_length=20)
     costo = models.DecimalField(max_digits=12, decimal_places=2)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)  # Relación con Categoria
 
     def __str__(self):
         return self.titulo_servicio
     
 class Ticket(models.Model):
     titulo = models.CharField(max_length=255)
-    comentario_resolucion = models.TextField(null=True, blank=True)
+    comentario = models.TextField(null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     prioridad = models.ForeignKey(Prioridad, on_delete=models.CASCADE)
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
@@ -69,11 +70,7 @@ class FechaTicket(models.Model):
 class DetalleUsuarioTicket(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     usuario = models.ForeignKey('autenticacion.Usuario', on_delete=models.CASCADE)
-    relacion_ticket = models.CharField(max_length=20, choices=[
-        ('creador', 'Creador'),
-        ('asignado', 'Asignado'),
-        ('resuelto', 'Resuelto')
-    ])
+    relacion_ticket = models.CharField(max_length=20)
 
     def __str__(self):
         return f"Usuario {self.usuario.nom_usuario} - {self.relacion_ticket} en Ticket {self.ticket}"

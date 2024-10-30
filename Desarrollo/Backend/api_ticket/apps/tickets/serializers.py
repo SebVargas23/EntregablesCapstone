@@ -29,20 +29,44 @@ class PrioridadSerializer(serializers.ModelSerializer):
 class ServicioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Servicio
-        fields = ['id','titulo_servicio','costo']
+        fields = ['id','titulo_servicio','costo', 'categoria']
 
 class TicketSerializer(serializers.ModelSerializer):
+    fecha_creacion = serializers.SerializerMethodField()
+    fecha_cierre = serializers.DateTimeField(allow_null=True, required=False)
+
     class Meta:
         model = Ticket
         fields = [
-            'titulo',
-            'comentario_resolucion',
-            'categoria',
-            'prioridad',
-            'servicio',
-            'estado'
+            'id', 'titulo', 'comentario', 'categoria', 
+            'prioridad', 'servicio', 'estado', 'fecha_creacion', 'fecha_cierre'
         ]
 
+    def get_fecha_creacion(self, obj):
+        fecha_creacion = FechaTicket.objects.filter(ticket=obj, tipo_fecha='Creacion').first()
+        return fecha_creacion.fecha if fecha_creacion else None
+
+    def update(self, instance, validated_data):
+        # Actualizar el ticket con datos validados
+        instance.titulo = validated_data.get('titulo', instance.titulo)
+        instance.comentario = validated_data.get('comentario', instance.comentario)
+        instance.categoria = validated_data.get('categoria', instance.categoria)
+        instance.prioridad = validated_data.get('prioridad', instance.prioridad)
+        instance.servicio = validated_data.get('servicio', instance.servicio)
+        instance.estado = validated_data.get('estado', instance.estado)
+        instance.save()
+
+        # Manejar la fecha de cierre
+        fecha_cierre = validated_data.get('fecha_cierre', None)
+        if fecha_cierre:
+            FechaTicket.objects.update_or_create(
+                ticket=instance,
+                tipo_fecha='Cierre',
+                defaults={'fecha': fecha_cierre}
+            )
+
+        return instance
+    
 class DetalleUsuarioTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleUsuarioTicket

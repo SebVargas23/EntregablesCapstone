@@ -12,15 +12,32 @@ class LoginView(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         # Autenticación del usuario con correo y contraseña
+        print("1- inicio request")
         correo = request.data.get('correo')
         password = request.data.get('password')
+
+        # Debug: Imprimir los datos de inicio de sesión
+        print(f"Correo: {correo}, Contraseña: {'*' * len(password) if password else 'No proporcionada'}")  # No imprimir contraseña
         
+        print("2- Inicio de autenticación")
         # Autenticación
         user = authenticate(request, correo=correo, password=password)
+        
+
         if user is None:
+            print("err: credenciales no válidas")
             return Response({"error": "Credenciales no válidas"}, status=400)
-        login(request,user)
-        return super(LoginView, self).post(request, format=None)
+
+        print(f"Usuario autenticado: {user.correo}")  # Debug: Imprimir el correo del usuario autenticado
+
+        # Iniciar sesión
+        login(request, user)
+        print("Usuario ha iniciado sesión correctamente.")
+
+        # Llama al método superior para crear el token
+        response = super(LoginView, self).post(request, format=None)
+        print("Token generado con éxito.")
+        return response
     
 
 
