@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from rest_framework import generics
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from .models import Usuario
 from .models import Cargo, Departamento
 

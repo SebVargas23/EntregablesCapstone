@@ -23,7 +23,7 @@ const RegistroUsuario = () => {
         // Función para obtener los cargos del backend
         const fetchCargos = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/cargos/'); // Cambia la URL según tu API
+                const response = await axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/api/cargos/'); // Cambia la URL según tu API
                 setCargos(response.data); // Suponiendo que la respuesta es un array de cargos
             } catch (error) {
                 console.error('Error al obtener los cargos:', error);
@@ -50,7 +50,7 @@ const RegistroUsuario = () => {
         console.log('Datos enviados:', formData);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/registrar/', formData);
+            const response = await axios.post('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/registrar/', formData);
             console.log('Usuario registrado:', response.data);
             // Aquí puedes redirigir o hacer algo después del registro exitoso
             navigate('/login'); // Redirige al login después del registro exitoso

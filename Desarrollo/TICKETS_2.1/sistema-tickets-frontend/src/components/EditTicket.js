@@ -35,10 +35,10 @@ const EditTicket = () => {
     const fetchData = async () => {
       try {
         const [ticketRes, categoriasRes, prioridadesRes, estadosRes] = await Promise.all([
-          axios.get(`http://127.0.0.1:8000/tickets/${id}/`),
-          axios.get('http://127.0.0.1:8000/categorias/'),
-          axios.get('http://127.0.0.1:8000/prioridades/'),
-          axios.get('http://127.0.0.1:8000/estados/')
+          axios.get(`ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/tickets/${id}/`),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/categorias/'),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/prioridades/'),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/estados/')
         ]);
 
         setTicket({
@@ -74,7 +74,7 @@ const EditTicket = () => {
 
     try {
       // Realiza la solicitud PATCH para actualizar el ticket
-      await axios.patch(`http://127.0.0.1:8000/tickets/${id}/`, ticket, {
+      await axios.patch(`ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/tickets/${id}/`, ticket, {
         headers: {
           'Content-Type': 'application/json',
         },

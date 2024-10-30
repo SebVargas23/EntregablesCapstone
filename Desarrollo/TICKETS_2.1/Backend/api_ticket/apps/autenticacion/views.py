@@ -11,6 +11,7 @@ from .serializers import CargoSerializer
 class LoginView(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
+        print(request.data)
         # Autenticación del usuario con correo y contraseña
         correo = request.data.get('correo')
         password = request.data.get('password')

@@ -38,10 +38,10 @@ const TicketsList = () => {
       try {
         setLoading(true);
         const [ticketsRes, categoriasRes, prioridadesRes, estadosRes] = await Promise.all([
-          axios.get('http://127.0.0.1:8000/tickets/'),
-          axios.get('http://127.0.0.1:8000/categorias/'),
-          axios.get('http://127.0.0.1:8000/prioridades/'),
-          axios.get('http://127.0.0.1:8000/estados/')
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/tickets/'),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/categorias/'),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/prioridades/'),
+          axios.get('ttps://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/estados/')
         ]);
 
         setTickets(ticketsRes.data);

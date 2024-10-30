@@ -26,8 +26,9 @@ const Login = () => {
 
     try {
       // Realizar solicitud POST para autenticación
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', formData);
-      
+      console.log('iniciando login')
+      const response = await axios.post('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/api/token/', formData);
+      console.log('inicio de session existoso')
       // Almacenar el token en localStorage
       localStorage.setItem('token', response.data.access);
 
