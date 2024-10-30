@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-%j^l+^6=ulb)ogd9rs4c%fv&q-b(ljaa7g49z=g5peeq#t^6w_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev'
+]
+
 
 
 # Application definition

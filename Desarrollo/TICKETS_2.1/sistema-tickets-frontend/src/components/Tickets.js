@@ -21,7 +21,7 @@ const Ticket = () => {
     useEffect(() => {
         const fetchCategorias = async () => {
             try {
-                const response = await fetch('http://localhost:8000/categorias/');
+                const response = await fetch('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/categorias/');
                 const data = await response.json();
                 setCategorias(data);
             } catch (error) {
@@ -31,7 +31,7 @@ const Ticket = () => {
 
         const fetchPrioridades = async () => {
             try {
-                const response = await fetch('http://localhost:8000/prioridades/');
+                const response = await fetch('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/prioridades/');
                 const data = await response.json();
                 setPrioridades(data);
             } catch (error) {
@@ -41,7 +41,7 @@ const Ticket = () => {
 
         const fetchServicios = async () => {
             try {
-                const response = await fetch('http://localhost:8000/servicios/');
+                const response = await fetch('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/servicios/');
                 const data = await response.json();
                 setServicios(data);
             } catch (error) {
@@ -51,7 +51,7 @@ const Ticket = () => {
 
         const fetchEstados = async () => {
             try {
-                const response = await fetch('http://localhost:8000/estados/');
+                const response = await fetch('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/estados/');
                 const data = await response.json();
                 setEstados(data);
             } catch (error) {
@@ -109,7 +109,7 @@ const Ticket = () => {
         console.log('Datos ajustados:', adjustedData); // Verificar datos ajustados
     
         try {
-            const response = await fetch('http://localhost:8000/tickets/', {
+            const response = await fetch('https://paranormal-skull-v55xrg947qqhpwpj-8000.app.github.dev/tickets/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

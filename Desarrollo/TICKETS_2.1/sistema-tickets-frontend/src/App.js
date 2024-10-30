@@ -8,7 +8,7 @@ import Tickets from './components/Tickets'; // Importa el componente Tickets
 import TicketsList from './components/TicketsList';
 import EditTicket from './components/EditTicket';
 import PrivateRoute from './components/PrivateRoute'; // Importa el componente PrivateRoute
-
+import UsersList from './components/UserList';
 
 function App() {
     return (
