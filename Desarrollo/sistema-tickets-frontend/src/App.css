@@ -56,6 +56,7 @@ body {
   justify-content: center;
   align-items: center;
   color: #000000;
+  margin-top: 60px; /* Ajusta según la altura de tu header */
 }
 
 
@@ -163,16 +164,43 @@ p a {
 
 
 /* CSS TICKET */
+
+.view-tickets-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #28a745; /* Color verde */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.view-tickets-link:hover {
+  background-color: #218838; /* Color verde más oscuro al pasar el ratón */
+}
+
+
 .tickets-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
 }
 
 .ticket-form {
-  display: flex;
-  flex-direction: column;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Ajusta según necesites */
 }
 
 .input-group {
+  display: flex;
+  align-items: center; /* Alinea los elementos verticalmente */
   margin-bottom: 15px;
 }
 
@@ -181,10 +209,38 @@ p a {
 }
 
 .input-group input,
-.input-group textarea,
-.input-group select {
+.input-group textarea {
   padding: 10px;
   font-size: 16px;
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #ccc; /* Bordes similares a los select */
+  border-radius: 4px; /* Bordes redondeados */
+  box-sizing: border-box; /* Para incluir el padding en el ancho total */
+  resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.input-group select {
+  padding: 8px; /* Reducido para hacerlo más compacto */
+  font-size: 14px; /* Ajustado para que sea más pequeño */
+  width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
+  margin-top: 5px; /* Espaciado entre el label y el input/select */
+  border: 1px solid #ccc; /* Agregado para darle un borde */
+  border-radius: 4px; /* Bordes redondeados */
+  box-sizing: border-box; /* Para incluir el padding en el ancho total */
+  flex: 1; /* Toma el espacio restante */
+  padding: 10px; /* Espaciado dentro del select */
+  margin-left: 10px; /* Espacio entre el emoji y el select */
+}
+
+.input-group select {
+  appearance: none; /* Quita el estilo predeterminado del select en algunos navegadores */
+
+  background-size: 12px; /* Tamaño del icono */
+}
+
+.input-group select option {
+  padding: 10px; /* Espaciado interno para opciones del select */
 }
 
 button {
@@ -194,6 +250,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 4px; /* Bordes redondeados en el botón */
 }
 
 button:hover {
@@ -202,11 +259,14 @@ button:hover {
 
 .error {
   color: red;
+  font-size: 12px; /* Tamaño de fuente más pequeño para los mensajes de error */
 }
 
 .success {
   color: green;
+  font-size: 12px; /* Tamaño de fuente más pequeño para los mensajes de éxito */
 }
+
 
 .back-button {
   position: absolute; /* Para posicionarlo en la esquina superior izquierda */
@@ -222,4 +282,190 @@ button:hover {
 
 .back-button:hover {
   background-color: #d32f2f; /* Color más oscuro al pasar el mouse */
+}
+
+.icon {
+  font-size: 1.5rem; /* Ajusta el tamaño del emoji si es necesario */
+  margin-right: 10px; /* Espacio entre el emoji y el select */
+}
+
+/*CSS TICKETS LISTA*/
+.tickets-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tickets-row {
+  display: flex;
+  overflow-x: auto; /* Permite el desplazamiento horizontal */
+  gap: 15px; /* Espaciado entre los tickets */
+}
+
+.ticket-item {
+  min-width: 250px; /* Ancho mínimo para cada ticket */
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ticket-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.ticket-detail {
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.create-ticket-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #28a745; /* Color verde */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.create-ticket-button:hover {
+  background-color: #218838; /* Color verde más oscuro al pasar el ratón */
+}
+
+/* Header.css */
+.header {
+  display: flex;
+  align-items: center; /* Centra verticalmente los elementos del header */
+  padding: 10px; /* Espaciado interno */
+  background-color: #f8f9fa; /* Color de fondo del header */
+  border-bottom: 1px solid #dee2e6; /* Línea inferior */
+  width: 100%; /* Ocupa todo el ancho */
+  position: fixed; /* Mantiene el header en la parte superior */
+  top: 0; /* Se posiciona en la parte superior */
+  left: 0; /* Se asegura de que esté alineado a la izquierda */
+  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+}
+
+.header-image {
+  width: 100px; /* Ajusta el ancho del logo */
+  height: auto; /* Mantiene la proporción */
+  margin-right: 20px; /* Espacio entre el logo y el resto del contenido */
+}
+
+.header-nav {
+  flex-grow: 1; /* Permite que la navegación ocupe el espacio restante */
+  display: flex; /* Alinea los elementos en fila */
+  justify-content: center; /* Centra horizontalmente las opciones de navegación */
+}
+
+.header-nav ul {
+  list-style: none; /* Elimina los puntos de la lista */
+  padding: 0; /* Elimina el padding */
+  margin: 0; /* Elimina el margen */
+  display: flex; /* Alinea los elementos en fila */
+}
+
+.header-nav li {
+  margin: 0 15px; /* Espaciado entre las opciones */
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: #000000; /* Color del texto del enlace */
+}
+
+.header-usuario {
+  margin-left: auto; /* Empuja el nombre del usuario hacia la derecha */
+  font-weight: bold; /* Hace el nombre del usuario más prominente */
+}
+/* css listar usuarios */
+.usuarios-tickets-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.usuarios-tickets-title {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #20035f;
+  text-align: center;
+}
+
+.usuarios-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.usuario-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+.usuario-item:hover {
+  background-color: #f3f4f6;
+}
+
+.usuario-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #007bff;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.usuario-name:hover {
+  color: #0056b3;
+}
+
+.tickets-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.ticket-item {
+  padding: 10px;
+  background-color: #f1f1f1;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.ticket-item:hover {
+  background-color: #e2e2e2;
+}
+
+.no-tickets {
+  color: #888;
+  font-style: italic;
+  margin-top: 10px;
 }

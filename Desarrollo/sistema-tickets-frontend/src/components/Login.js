@@ -1,7 +1,7 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import loginUser from '../api/sessionHandler';
 import '../App.css'; // Asegúrate de que esta ruta sea correcta
 import { Link } from 'react-router-dom';
 
@@ -23,19 +23,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const correo = formData.correo
+    const password = formData.password
     try {
       // Realizar solicitud POST para autenticación
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', formData);
-      
-      // Almacenar el token en localStorage
-      localStorage.setItem('token', response.data.access);
-
+      const data = await loginUser(correo, password);
       // Redirigir al dashboard o a otra ruta
-      navigate('/tickets');
+      if (data) {
+        navigate('/tickets');
+      }
     } catch (error) {
       // Manejo de errores
-      setError('Credenciales incorrectas. Intenta de nuevo.');
+      setError(error)
     }
   };
 

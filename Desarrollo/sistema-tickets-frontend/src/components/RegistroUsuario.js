@@ -23,7 +23,7 @@ const RegistroUsuario = () => {
         // Función para obtener los cargos del backend
         const fetchCargos = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/cargos/'); // Cambia la URL según tu API
+                const response = await axios.get('http://127.0.0.1:8000/cargos/'); // Cambia la URL según tu API
                 setCargos(response.data); // Suponiendo que la respuesta es un array de cargos
             } catch (error) {
                 console.error('Error al obtener los cargos:', error);
