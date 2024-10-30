@@ -39,7 +39,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ['rut_usuario', 'dv_rut_usuario', 'nom_usuario', 'correo', 'telefono', 'tipo_de_usuario', 'cargo', 'is_active', 'is_staff', 'is_superuser']
+        fields = ['rut_usuario', 'dv_rut_usuario', 'nom_usuario', 'correo', 'telefono', 'cargo', 'is_active', 'is_staff', 'is_superuser']
         read_only_fields = ['is_active', 'is_staff', 'is_superuser']  # Campos de solo lectura
 
     def validate_rut_usuario(self, value):

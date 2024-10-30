@@ -21,6 +21,7 @@ function App() {
                     {/* Ruta para el login */}
                     <Route path="/login" element={<Login />} />
 
+
                     {/* Ruta protegida para crear tickets */}
                     <Route 
                         path="/tickets" 
@@ -50,6 +51,9 @@ function App() {
                             </PrivateRoute>
                         } 
                     />
+                    {/* Ruta para el UserList */}
+                    <Route path="/userlist" element={<UsersList />} />
+
                     {/* Redireccionar a /login si no se encuentra la ruta */}
                     <Route path="*" element={<Login />} />
                 </Routes>
