@@ -1,38 +1,3 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-# Remove this line as we're using drf_yasg instead
-# from rest_framework.schemas import get_schema_view
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="API Documentation",
-        default_version='v1',
-        description="Recordar que no es version final",
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
-
-urlpatterns = [
-    path('', include('apps.autenticacion.urls')),
-    path('', include('apps.tickets.urls')),
-    path('admin/', admin.site.urls),
-    # Keep only one set of swagger/redoc URLs
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    # Remove these duplicate/conflicting paths
-    # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # path('openapi', get_schema_view(...), name='openapi-schema'),
-    # path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
-
-#------ Abajo esta el respaldo de como estaba antes----------
-
 """
 URL configuration for api project.
 
@@ -49,14 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-"""
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.urls import path
-from rest_framework.schemas import get_schema_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -66,6 +29,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    #url='https://heron-eminent-starling.ngrok-free.app/',
 )
 
 
@@ -75,8 +39,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-  
 ]
-
-"""
-

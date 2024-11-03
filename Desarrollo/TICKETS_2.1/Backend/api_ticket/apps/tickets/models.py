@@ -30,14 +30,13 @@ class Estado(models.Model):
 class Servicio(models.Model):
     titulo_servicio = models.CharField(max_length=20)
     costo = models.DecimalField(max_digits=12, decimal_places=2)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)  # Relación con Categoria
 
     def __str__(self):
         return self.titulo_servicio
     
 class Ticket(models.Model):
     titulo = models.CharField(max_length=255)
-    comentario = models.TextField(null=True, blank=True)
+    comentario_resolucion = models.TextField(null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     prioridad = models.ForeignKey(Prioridad, on_delete=models.CASCADE)
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
