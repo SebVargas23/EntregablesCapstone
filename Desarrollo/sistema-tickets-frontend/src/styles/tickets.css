@@ -1,0 +1,119 @@
+/* Estilos generales */
+.guia-contenido {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;  /* Animación al cambiar el fondo */
+  }
+  
+  p {
+    text-align: center;
+    color: #333; 
+  }
+  
+  h3 {
+    text-align: center;
+    color: #333;  /* Título en color gris oscuro */
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s;  /* Animación para el título */
+  }
+  
+  /* Animación para el título */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .pasos {
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1s;  /* Animación de los pasos */
+  }
+  
+  /* Estilo de los pasos */
+  .paso {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: black;  /* Texto negro en los pasos */
+  }
+  
+  .paso:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Animación de sombra */
+  }
+  
+  .paso h4 {
+    color: black;  /* Título de cada paso en negro */
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .expand-icon {
+    float: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .expand-icon.open {
+    transform: rotate(180deg);
+  }
+  
+  /* Lista de subpasos */
+  .subpasos {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+    height: 0;  /* Inicialmente la altura está en 0 */
+    opacity: 0;  /* Inicia oculta */
+    overflow: hidden;
+    transition: height 0.5s ease-out, opacity 0.3s ease-in-out; /* Animación */
+  }
+  
+  .subpasos.active {
+    opacity: 1;  /* Hace visible la lista de subpasos */
+    padding-left: 20px;
+    height: auto; /* Permite que la altura se ajuste al contenido */
+  }
+  
+  .subpaso {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    color: black;  /* Texto negro en los subpasos */
+  }
+  
+  .subpaso:hover {
+    background-color: #e0e0e0;
+    padding-left: 15px;  /* Ampliación de espacio al pasar el ratón */
+  }
+  
+  /* Animación para los subpasos */
+  .subpasos.active .subpaso {
+    animation: fadeInSubsteps 0.5s ease-in-out forwards;
+  }
+  
+  /* Animación de aparición de los subpasos */
+  @keyframes fadeInSubsteps {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

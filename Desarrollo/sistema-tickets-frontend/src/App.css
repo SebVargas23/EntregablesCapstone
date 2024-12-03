@@ -42,21 +42,24 @@
   font-size: 0.8em;
 }
 
+/* Global styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'anton', sans-serif;
-  background: linear-gradient(to bottom, #3B2069, #7E3DC5);
-  height: 100vh;
+body, html, #root {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  color: #ffffffb6;
+}
+
+/* App Container */
+.app-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #000000;
-  margin-top: 60px; /* Ajusta según la altura de tu header */
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #206965, #7E3DC5);
 }
 
 
@@ -291,26 +294,65 @@ button:hover {
 
 /*CSS TICKETS LISTA*/
 .tickets-list-container {
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Ajustes para pantallas medianas */
+@media (max-width: 768px) {
+  .tickets-list-container {
+    max-width: 90%; /* Reduce el ancho máximo a un 90% */
+    padding: 15px;   /* Reduce el padding para ganar espacio */
+  }
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+  .tickets-list-container {
+    max-width: 95%; /* Ancho más reducido para pantallas pequeñas */
+    padding: 10px;  /* Padding aún más pequeño */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+  }
+}
+
+h2 {
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .tickets-row {
   display: flex;
   overflow-x: auto; /* Permite el desplazamiento horizontal */
-  gap: 15px; /* Espaciado entre los tickets */
+  flex-direction: column;
+  gap: 20px; /* Espaciado entre los tickets */
 }
 
 .ticket-item {
   min-width: 250px; /* Ancho mínimo para cada ticket */
   background-color: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  padding: 15px;
+  border-radius: 8px;
+  padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -322,14 +364,15 @@ button:hover {
 }
 
 .ticket-title {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-.ticket-detail {
+.ticket-details p {
   font-size: 1em;
-  margin-bottom: 5px;
+  color: #333;
+  margin: 5px 0;
 }
 
 .create-ticket-button {
@@ -349,123 +392,959 @@ button:hover {
   background-color: #218838; /* Color verde más oscuro al pasar el ratón */
 }
 
-/* Header.css */
-.header {
+/* Navbar Styles */
+.navbar {
   display: flex;
-  align-items: center; /* Centra verticalmente los elementos del header */
-  padding: 10px; /* Espaciado interno */
-  background-color: #f8f9fa; /* Color de fondo del header */
-  border-bottom: 1px solid #dee2e6; /* Línea inferior */
-  width: 100%; /* Ocupa todo el ancho */
-  position: fixed; /* Mantiene el header en la parte superior */
-  top: 0; /* Se posiciona en la parte superior */
-  left: 0; /* Se asegura de que esté alineado a la izquierda */
-  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1ac7a1;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-.header-image {
-  width: 100px; /* Ajusta el ancho del logo */
-  height: auto; /* Mantiene la proporción */
-  margin-right: 20px; /* Espacio entre el logo y el resto del contenido */
+.navbar-logo img {
+  width: 40px;
 }
 
-.header-nav {
-  flex-grow: 1; /* Permite que la navegación ocupe el espacio restante */
-  display: flex; /* Alinea los elementos en fila */
-  justify-content: center; /* Centra horizontalmente las opciones de navegación */
+.navbar-search-bar {
+  flex: 1;
+  margin: 0 20px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-.header-nav ul {
-  list-style: none; /* Elimina los puntos de la lista */
-  padding: 0; /* Elimina el padding */
-  margin: 0; /* Elimina el margen */
-  display: flex; /* Alinea los elementos en fila */
+.navbar-user-info {
+  display: flex;
+  align-items: center;
 }
 
-.header-nav li {
-  margin: 0 15px; /* Espaciado entre las opciones */
+.navbar-username {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: capitalize;
 }
 
-.header-nav a {
-  text-decoration: none;
-  color: #000000; /* Color del texto del enlace */
+.navbar-avatar {
+  width: 30px;
+  height: 30px;
+  background-color: #118064; /* Fondo del avatar */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
-.header-usuario {
-  margin-left: auto; /* Empuja el nombre del usuario hacia la derecha */
-  font-weight: bold; /* Hace el nombre del usuario más prominente */
+.navbar-logout-button {
+  margin-left: 15px; /* Space between the avatar and button */
+  padding: 8px 12px; /* Adjust padding for smaller size */
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #118064;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: auto; /* Ensure the width is based on the content */
+  max-width: 150px; /* Set a reasonable max width */
+  white-space: nowrap; /* Prevent text from wrapping */
 }
-/* css listar usuarios */
-.usuarios-tickets-container {
-  max-width: 800px;
-  margin: 0 auto;
+
+.navbar-logout-button:hover {
+  background-color: #118064; /* Highlighted background */
+  color: #ffffff; /* Highlighted text */
+}
+
+
+
+/* Contenedor principal del formulario de edición del ticket */
+.ticket-section-container {
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tarjeta de ticket (diseño de comentarios) */
+.ticket-card {
+  padding: 20px;
+  border-radius: 10px;
   background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabecera del ticket */
+.ticket-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.ticket-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.avatar-placeholder {
+  font-size: 18px;
+  color: #888;
+}
+
+.ticket-info h4 {
+  margin: 0;
+  font-size: 18px;
   color: #333;
 }
 
-.usuarios-tickets-title {
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  color: #20035f;
+.ticket-info span {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Grupo de input en el formulario */
+.input-group {
+  margin-top: 15px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  resize: none;
+  background-color: #fff;
+}
+/* Button styles */
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
   text-align: center;
 }
 
-.usuarios-list {
-  list-style: none;
+.button-primary {
+  background-color: #007bff;
+}
+
+.button-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-danger {
+  background-color: #dc3545;
+}
+
+.button-danger:hover {
+  background-color: #c82333;
+}
+
+.button-success {
+  background-color: #28a745;
+}
+
+.button-success:hover {
+  background-color: #218838;
+}
+
+.buttons-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.back-to-tickets-button,
+.view-closed-tickets-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.back-to-tickets-button:hover,
+.view-closed-tickets-button:hover {
+  background-color: #0056b3;
+}
+
+/* Contenedor de opciones de navegación de tickets (volviendo a lista, ver tickets cerrados) */
+.ticket-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  padding: 20px;
+  text-align: center;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-widgets {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.widget {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  text-align: center;
+}
+
+.widget h3 {
+  margin-bottom: 10px;
+  background-color: #006685;
+}
+
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #006685;
+  color: white;
+  position: fixed;
+  top: 60px; /* Ajuste según la altura del header */
+  left: 0;
+  bottom: 0;
+  padding-top: 20px;
+  overflow-y: auto;
+  z-index: 99;
+}
+
+.sidebar ul {
+  list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.usuario-item {
-  padding: 15px;
-  margin-bottom: 15px;
+.sidebar li a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+}
+
+.sidebar li a:hover {
+  background-color: #20dad8;
+  border-radius: 4px;
+}
+
+
+/* Content Area */
+.main-content {
+  margin-left: 250px; /* Reserva espacio para el sidebar */
+  padding-top: 80px; /* Compensa la altura del header */
+  padding: 20px;
+  padding-top: 70px;
+  width: calc(100% - 250px);
+  min-height: 100vh;
+  background: #ffffff;
+  color: #ffffff;
+}
+
+/*REGISTRO STYLE*/
+.registration-container {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.user-profile-section {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  color: #333;
+}
+
+.user-avatar {
+  display: inline-block; /* Para que se respete el centrado de texto */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px; /* Ajusta el margen si es necesario */
+}
+
+.follow-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.description {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.account-details-section {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.account-details-section h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.input-group label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.update-account-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.update-account-button:hover {
+  background-color: #0056b3;
+}
+
+/*CSS LISTA TICKETS*/
+.tickets-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.tickets-table th,
+.tickets-table td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tickets-table th {
+  background-color: #f4f4f6;
+  font-weight: bold;
+}
+
+.tickets-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tickets-table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+/* Colores para los estados de los tickets */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 0.9em;
+}
+
+.status-abierto { background-color: #28a745; }
+.status-asignado { background-color: #007bff; }
+.status-pendiente { background-color: #ffc107; }
+.status-resuelto { background-color: #17a2b8; }
+.status-cerrado { background-color: #6c757d; }
+.status-reabierto { background-color: #fd7e14; }
+.status-cancelado { background-color: #dc3545; }
+.status-en_espera_de_aprobacion { background-color: #6610f2; }
+.status-escalado { background-color: #20c997; }
+.status-suspendido { background-color: #343a40; }
+.status-duplicado { background-color: #adb5bd; }
+
+/* Colores para las prioridades de los tickets */
+.priority-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 0.9em;
+}
+
+.priority-alta { background-color: #dc3545; }
+.priority-media { background-color: #ffc107; color: black; }
+.priority-baja { background-color: #28a745; }
+
+
+/* Dashboard Styles */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Establece un ancho máximo para pantallas grandes */
+  padding: 20px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-stats {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se ajusten automáticamente */
+  gap: 20px;
+  justify-content: center; /* Centra las tarjetas horizontalmente */
+  margin-bottom: 20px;
+  width: 100%; /* Alinea las tarjetas al 100% */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.stat-card {
+  flex: 1 1 200px;
+  max-width: 250px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  text-align: center;
+  color: #333;
+}
+
+/* Estilos internos para los elementos de texto en la tarjeta */
+.stat-card h3 {
+  color: #555;
+  font-size: 1.1em;
+  margin: 0;
+  margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+.stat-card p {
+  font-size: 2em;
+  color: #333;
+  margin: 0;
+}
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333; /* Ajusta el color según tu diseño */
+  margin-bottom: 15px; /* Espacio debajo del título */
+  text-align: center;
+}
+
+.chart-container-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas */
+  gap: 20px; /* Espacio entre gráficos */
+  justify-items: center; /* Centrado de gráficos en cada columna */
+  width: 100%;
+  margin-top: 20px;
+}
+
+.chart-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Tamaño máximo de cada gráfico */
+  box-sizing: border-box;
+}
+
+/* SERVICIOS STYLE*/
+.servicios-form-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.servicios-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.servicio-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #fff;
-  transition: background-color 0.3s;
+  background-color: #ffffff;
 }
 
-.usuario-item:hover {
-  background-color: #f3f4f6;
-}
-
-.usuario-name {
-  font-size: 1.2em;
+.input-group label {
   font-weight: bold;
-  cursor: pointer;
-  color: #007bff;
-  display: inline-block;
-  transition: color 0.3s;
 }
 
-.usuario-name:hover {
-  color: #0056b3;
-}
-
-.tickets-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.ticket-item {
-  padding: 10px;
-  background-color: #f1f1f1;
-  margin-bottom: 5px;
+.readonly-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  background-color: #f3f3f3;
+  color: #555;
 }
 
-.ticket-item:hover {
-  background-color: #e2e2e2;
+
+/* guia de usuario y lista de sugerencias */
+.filtro-usuario {
+  max-width: 30%;
+  position: relative; /* Para que la lista de sugerencias se posicione correctamente */
+  margin-bottom: 20px; /* Espacio inferior entre el filtro y otros elementos */
 }
 
-.no-tickets {
-  color: #888;
-  font-style: italic;
+.filtro-usuario input {
+  width: 100%; /* Hacer que el input ocupe el ancho completo */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ccc; /* Borde ligero */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+}
+
+.sugerencias-lista {
+  position: absolute; /* Para que se superponga sobre otros elementos */
+  background-color: white; /* Color de fondo blanco */
+  border: 1px solid #ccc; /* Borde ligero */
+  width: 100%; /* Alineación con el input */
+  max-height: 150px; /* Altura máxima de la lista */
+  overflow-y: auto; /* Permitir el desplazamiento si hay muchas sugerencias */
+  list-style-type: none; /* Quitar los puntos de la lista */
+  padding: 0; /* Sin espaciado */
+  margin: 0; /* Sin margen */
+  z-index: 1; /* Asegurarse de que la lista esté por encima de otros elementos */
+}
+
+.sugerencias-lista li {
+  padding: 10px; /* Espaciado interno en cada sugerencia */
+  cursor: pointer; /* Cambia el cursor al pasar sobre la sugerencia */
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.sugerencias-lista li:hover {
+  background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+}
+
+.sugerencias-lista li:active {
+  background-color: #e0e0e0; /* Color de fondo al hacer clic */
+}
+
+.filtros {
+  display: flex; /* Flexbox for horizontal alignment */
+  justify-content: space-between; /* Evenly distribute filters across the container */
+  align-items: center; /* Vertically center the filters */
+  width: 100%; /* Make filters container fill the full width */
+  gap: 10px; /* Optional: Adds spacing between filters */
+}
+
+.filtros > * {
+  flex: 1; /* All child elements (filters) take equal width */
+  margin: 0 5px; /* Add small spacing on both sides of each filter */
+}
+
+.filtros input,
+.filtros select {
+  width: 100%; /* Ensure elements expand fully within their flexbox space */
+  padding: 5px; /* Add padding for better usability */
+  font-size: 1rem; /* Adjust font size for consistency */
+}
+
+
+.guia-usuario-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.lista-desplegable {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.lista-desplegable select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.custom-modal {
+  max-width: 600px; /* Ajusta el ancho máximo según prefieras */
+  max-height: 80vh; /* Ajusta la altura máxima para evitar que ocupe toda la pantalla */
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Para permitir desplazamiento si el contenido es muy largo */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para el overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+/* Estilo para el contenedor de la guía de usuario */
+.guia-usuario-container {
+  max-width: 800px; /* Ancho máximo para el contenedor */
+  margin: 20px auto; /* Centrado horizontal */
+  padding: 20px; /* Espaciado interno */
+  background-color: #f9f9f9; /* Color de fondo */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo para el título de la guía */
+.guia-usuario-titulo {
+  font-size: 2rem; /* Tamaño de fuente grande */
+  margin-bottom: 20px; /* Espaciado inferior */
+  color: #333; /* Color del texto */
+  text-align: center; /* Centrado del texto */
+}
+
+/* Estilo para la lista desplegable */
+.lista-desplegable {
+  margin-bottom: 20px; /* Espaciado inferior */
+}
+
+/* Estilo para las etiquetas dentro de la lista desplegable */
+.lista-desplegable label {
+  font-weight: bold; /* Texto en negrita */
+  margin-right: 10px; /* Espaciado a la derecha */
+}
+
+/* Estilo para el elemento <select> */
+.lista-desplegable select {
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ccc; /* Borde */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 1rem; /* Tamaño de fuente */
+}
+
+/* Estilo para el contenido de la guía */
+.guia-contenido {
+  margin-top: 20px; /* Espaciado superior */
+}
+
+/* Estilo para los títulos dentro del contenido de la guía */
+.guia-contenido h3 {
+  font-size: 1.5rem; /* Tamaño de fuente para subtítulos */
+  color: #0056b3; /* Color del texto */
+}
+
+/* Estilo para la lista de instrucciones */
+.guia-contenido ul {
+  list-style-type: disc; /* Tipo de viñetas */
+  padding-left: 20px; /* Espaciado izquierdo */
+}
+
+/* Estilo para los elementos de la lista de instrucciones */
+.guia-contenido li {
+  margin-bottom: 10px; /* Espaciado inferior entre instrucciones */
+  line-height: 1.5; /* Espaciado entre líneas */
+  color: #555; /* Color del texto */
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color: #124439;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  /* Ajustes para pantallas medianas */
+  
+  /* Navbar Header */
+  .navbar {
+    width: 100%;
+    padding: 10px 15px;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: 0;
+    padding-top: 15px;
+  }
+
+  /* Contenido principal */
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 15px; /* Añade un padding más pequeño */
+    min-height: 100vh; /* Asegura que ocupe toda la altura */
+  }
+
+  /* Dashboard Stats */
+  .dashboard-stats {
+    flex-direction: column; /* Cambia a columna en pantallas medianas */
+    align-items: center;
+  }
+
+  /* Chart Container */
+  .chart-container {
+    width: 100%; /* Ocupa el 100% en pantallas pequeñas */
+    padding: 20px; /* Ajusta el padding para adaptarse al tamaño */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ajustes para pantallas pequeñas */
+  
+  /* Navbar y Contenido Principal */
+  .navbar, .main-content {
+    padding: 10px;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    padding-top: 20px;
+  }
+
+  /* Estadísticas en el Dashboard */
+  .stat-card {
+    width: 100%; /* Asegura que cada tarjeta ocupe el ancho completo */
+    margin-bottom: 10px;
+  }
+
+  /* Ajustes en Chart Container */
+  .chart-container {
+    padding: 15px; /* Reduce el padding en pantallas más pequeñas */
+    width: 100%;
+  }
+}
+
+.rating-blocks {
+  display: flex;
+  gap: 10px;
   margin-top: 10px;
+}
+
+.rating-block {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.rating-block.selected {
+  background-color: #4caf50;
+  border-color: #388e3c;
+  color: white;
+}
+
+.rating-block:hover {
+  background-color: #d5d5d5;
+}
+
+.button-group-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.feedback-section{
+  color: black
+}
+
+
+.feedback-buttons,
+.admin-buttons {
+    display: flex;
+    gap: 10px; /* Espaciado entre botones */
+}
+
+.feedback-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feedback-button:hover {
+    background-color: #0056b3;
+}
+
+.update-button,
+.close-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-button:hover {
+    background-color: #218838;
+}
+
+.close-button {
+    background-color: #dc3545;
+}
+
+.close-button:hover {
+    background-color: #c82333;
+}
+
+.feedback-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.meter-bar {
+  width: 80%;
+  height: 20px;
+  background: linear-gradient(to right, red, orange, yellow, lightgreen, green);
+  border-radius: 10px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.meter-indicator {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  height: 40px;
+  width: 5px;
+  background: black;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+}
+
+.feedback-emojis {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 10px;
+}
+
+.emoji {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.emoji.selected {
+  transform: scale(1.5);
 }

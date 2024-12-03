@@ -9,11 +9,33 @@ from .views import (
     ServicioListCreateView, ServicioDetailView,
     TicketListCreateView, TicketDetailView,
     DetalleUsuarioTicketListCreateView, DetalleUsuarioTicketDetailView,
-    FechaTicketListCreateView, FechaTicketDetailView,
-    CombinedDataView,
-    listaUsuariosTicketsView
+    FechaTicketListCreateView, FechaTicketDetailView,ClosedTicketListView,
+    sla_presupuestoView,
+    dashboard_stats,list_usuarios, create_or_update_evaluacion
 )
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API",
+        default_version='v1',
+        description="Documentación de la API",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@api.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+# Creamos un router
 
 
 # Definimos rutas con path
@@ -45,11 +67,17 @@ urlpatterns = [
     path('fechas-tickets/', FechaTicketListCreateView.as_view(), name='fecha-ticket-list-create'),
     path('fechas-tickets/<int:pk>/', FechaTicketDetailView.as_view(), name='fecha-ticket-detail'),
 
-# vistas persoanlizadas
+    # Otras rutas de tu API
 
-    path('combined-data/', CombinedDataView.as_view(), name= 'combined-data'),
-    path('lista-usuario/', listaUsuariosTicketsView.as_view(), name='lista-usuario')
-    #realizar usuario creacion lista
+    path('tickets-cerrados/', ClosedTicketListView.as_view(), name='tickets-cerrados'),
+
+    path('api/dashboard/stats/', dashboard_stats, name='dashboard-stats'),
+
+    path('sla-presupuestos/',sla_presupuestoView.as_view(), name='sla-presupuesto'),
+
+    path('usuarios/', list_usuarios, name='list_usuarios'),
+
+    path('tickets/<int:ticket_id>/feedback/', create_or_update_evaluacion, name='create_or_update_evaluacion'),
 ]
 
 DEBUG = True

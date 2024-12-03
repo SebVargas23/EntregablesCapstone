@@ -1,0 +1,141 @@
+.sla-related-data {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f9; /* Light background color */
+    border-radius: 8px; /* Optional: Adds rounded corners to the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow around the container */
+  }
+  
+  .budget-overview {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .budget-overview h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+
+  
+  .budget-details p {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: left;
+  }
+  
+  .budget-details strong {
+    color: #333;
+  }
+  
+  .worst-tickets h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .ticket-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ticket-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .ticket-item:hover {
+    transform: scale(1.05);
+  }
+  
+  .ticket-item div {
+    margin-bottom: 8px;
+  }
+  
+  .ticket-item strong {
+    color: #555;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+  }
+  
+  .budget-overview {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .budget-details p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .budget-details strong {
+    color: #333;
+  }
+  
+  .worst-tickets h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .tickets-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .tickets-table th, .tickets-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tickets-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .ticket-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+  }
+  
+
+  .priority-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.9em;
+  }
+  
+  .priority-1 { background-color: #dc3545; }
+  .priority-2 { background-color: #ffc107; color: black; }
+  .priority-3 { background-color: #28a745; }

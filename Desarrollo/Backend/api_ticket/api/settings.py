@@ -26,8 +26,26 @@ SECRET_KEY = 'django-insecure-%j^l+^6=ulb)ogd9rs4c%fv&q-b(ljaa7g49z=g5peeq#t^6w_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'heron-eminent-starling.ngrok-free.app',
+    'localhost',
+    '127.0.0.1'
+]
 
+# ngrok http --url=heron-eminent-starling.ngrok-free.app 8000
+
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = True  # Esto asegura que las cookies solo se envíen en HTTPS
+CSRF_COOKIE_SECURE = True     # Configuración para HTTPS (necesaria para ngrok)
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://heron-eminent-starling.ngrok-free.app',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    "http://localhost:3000",
+    "http://127.0.0.1:3000", 
+]
 
 # Application definition
 
@@ -39,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'knox',
     'drf_yasg',
     'apps.autenticacion',
@@ -55,9 +74,11 @@ AUTHENTICATION_BACKENDS = [
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'knox.auth.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        
         
         ),
         
@@ -77,6 +98,12 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'ngrok-skip-browser-warning',  # add this line
+    # other headers you may need
+]
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -138,10 +165,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'USER_ID_FIELD': 'rut_usuario',  # Cambiar de 'id' a 'rut_usuario'
+    'USER_ID_CLAIM': 'user_id',
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
 }
 
 
@@ -150,7 +177,7 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = 'es-es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 

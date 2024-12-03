@@ -1,0 +1,87 @@
+[
+    {
+      "id_categoria": 1,
+      "titulo": "Soporte técnico",
+      "descripcion": "Este conjunto de instrucciones está orientado a resolver problemas técnicos reportados por los usuarios, desde fallos simples hasta errores más complejos. La guía proporciona pasos para diagnosticar, aplicar soluciones, documentar problemas y mantener al usuario informado durante el proceso.",
+      "instrucciones": [
+        "Paso 1: Verificar el problema reportado.",
+        "Paso 2: Hacer un diagnóstico preliminar.",
+        "Paso 3: Aplicar soluciones básicas o escalar según sea necesario.",
+        "Paso 4: Documentar el problema y la solución aplicada.",
+        "Paso 5: Informar al usuario sobre el estado de su solicitud."
+      ]
+    },
+    {
+      "id_categoria": 2,
+      "titulo": "Hardware y equipos",
+      "descripcion": "Esta guía proporciona pasos detallados para evaluar, reparar o reemplazar componentes defectuosos de hardware. Desde realizar pruebas físicas hasta la instalación de nuevos equipos, es esencial para mantener el buen estado del hardware.",
+      "instrucciones": [
+        "Paso 1: Realizar pruebas de hardware.",
+        "Paso 2: Verificar la compatibilidad de los componentes.",
+        "Paso 3: Reemplazar componentes defectuosos.",
+        "Paso 4: Configurar los nuevos componentes instalados.",
+        "Paso 5: Realizar pruebas de rendimiento post-reparación."
+      ]
+    },
+    {
+      "id_categoria": 3,
+      "titulo": "Software corporativo",
+      "descripcion": "Guía para la instalación y configuración de software utilizado en la organización. Este proceso incluye desde la validación de licencias hasta la configuración avanzada de sistemas según las necesidades corporativas.",
+      "instrucciones": [
+        "Paso 1: Verificar licencias y permisos.",
+        "Paso 2: Instalar el software según el manual corporativo.",
+        "Paso 3: Realizar configuraciones específicas.",
+        "Paso 4: Probar el software para asegurar que funcione correctamente.",
+        "Paso 5: Documentar la instalación y cualquier configuración especial realizada."
+      ]
+    },
+    {
+      "id_categoria": 4,
+      "titulo": "Redes y conectividad",
+      "descripcion": "Instrucciones para identificar y resolver problemas relacionados con la conectividad a la red, configuraciones de routers, switches, servidores de red, y otros dispositivos relacionados.",
+      "instrucciones": [
+        "Paso 1: Comprobar el estado de la conexión.",
+        "Paso 2: Verificar el hardware de red.",
+        "Paso 3: Configurar o reiniciar equipos de red.",
+        "Paso 4: Actualizar configuraciones de red según sea necesario.",
+        "Paso 5: Realizar pruebas de conectividad para asegurarse de que todo funcione correctamente."
+      ]
+    },
+    {
+      "id_categoria": 5,
+      "titulo": "Consultoría y asesoramiento",
+      "descripcion": "Esta guía está dirigida a aquellos que brindan consultoría o asesoramiento a clientes, ayudando a entender sus necesidades y a diseñar soluciones efectivas.",
+      "instrucciones": [
+        "Paso 1: Entender las necesidades del cliente.",
+        "Paso 2: Ofrecer opciones de solución.",
+        "Paso 3: Crear un plan de implementación.",
+        "Paso 4: Establecer un cronograma y recursos necesarios.",
+        "Paso 5: Seguimiento post-implementación para asegurar la satisfacción del cliente."
+      ]
+    },
+    {
+      "id_categoria": 6,
+      "titulo": "Mantenimiento preventivo",
+      "descripcion": "Instrucciones para garantizar la seguridad de los sistemas y la protección de los datos de la organización. Incluye la implementación de políticas de seguridad, auditorías y la capacitación de los empleados.",
+      "instrucciones": [
+        "Paso 1: Realizar un inventario del hardware y software.",
+        "Paso 2: Programar mantenimiento regular para cada equipo.",
+        "Paso 3: Limpiar físicamente los equipos de polvo y suciedad.",
+        "Paso 4: Actualizar software y realizar copias de seguridad.",
+        "Paso 5: Revisar el rendimiento del sistema y hacer ajustes necesarios."
+      ]
+    },
+    {
+      "id_categoria": 7,
+      "titulo": "Seguridad informática",
+      "descripcion": "Instrucciones para garantizar la seguridad de los sistemas y la protección de los datos de la organización. Incluye la implementación de políticas de seguridad, auditorías y la capacitación de los empleados.",
+      "instrucciones": [
+        "Paso 1: Implementar políticas de seguridad para los usuarios.",
+        "Paso 2: Usar contraseñas seguras y cambiar las contraseñas regularmente.",
+        "Paso 3: Realizar auditorías de seguridad periódicas.",
+        "Paso 4: Capacitar a los empleados sobre prácticas de seguridad.",
+        "Paso 5: Instalar y mantener actualizado el software antivirus y de firewall."
+      ]
+    }
+  ]
+  

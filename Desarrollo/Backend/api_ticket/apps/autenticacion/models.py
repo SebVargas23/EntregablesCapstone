@@ -31,17 +31,26 @@ class Cargo(models.Model):
 
 class UsuarioManager(BaseUserManager):
     """Gestor de usuarios personalizado"""
-    
+
     def create_user(self, rut_usuario, dv_rut_usuario, correo, password=None, **extra_fields):
         if not correo:
             raise ValueError('El correo es obligatorio')
         if not rut_usuario:
             raise ValueError('El RUT es obligatorio')
         if not dv_rut_usuario:
-            raise ValueError('El digito validador es obligatorio')
+            raise ValueError('El dígito verificador es obligatorio')
+        
+        # Define 'usuario' como valor predeterminado para role si no está en extra_fields
+        extra_fields.setdefault('role', 'usuario')  
 
         correo = self.normalize_email(correo)
-        user = self.model(rut_usuario=rut_usuario, dv_rut_usuario=dv_rut_usuario, correo=correo, **extra_fields)
+        user = self.model(
+            rut_usuario=rut_usuario,
+            dv_rut_usuario=dv_rut_usuario,
+            correo=correo,
+            **extra_fields  # Aquí ya incluye 'role' en extra_fields
+        )
+
         if password is None:
             raise ValueError('La contraseña es obligatoria')
         user.set_password(password)
@@ -53,19 +62,23 @@ class UsuarioManager(BaseUserManager):
 
         user.save(using=self._db)
         return user
-    
+
     def create_staff(self, rut_usuario, dv_rut_usuario, correo, password=None, **extra_fields):
-        """Crea un usuario de tipo staff"""
-        extra_fields.setdefault('is_staff', True)  
-        extra_fields.setdefault('is_superuser', False) 
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', False)
 
         return self.create_user(rut_usuario, dv_rut_usuario, correo, password, **extra_fields)
 
     def create_superuser(self, rut_usuario, dv_rut_usuario, correo, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('role', 'admin')  # Asegura el rol 'admin' para superusuarios
+        if 'cargo' not in extra_fields or extra_fields['cargo'] is None:
+            extra_fields['cargo'] = Cargo.objects.first()
 
         return self.create_user(rut_usuario, dv_rut_usuario, correo, password, **extra_fields)
+
+
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     """Modelo personalizado de usuario"""
@@ -79,13 +92,18 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Indica si puede acceder al panel de administración
     is_superuser = models.BooleanField(default=False)  # Bandera para superusuario
-    
     date_joined = models.DateTimeField(default=timezone.now)
 
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'correo'
     REQUIRED_FIELDS = ['rut_usuario', 'dv_rut_usuario', 'nom_usuario']
+
+    ROLE_CHOICES = (
+        ('admin', 'Administrador'),
+        ('usuario', 'Usuario')
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='usuario')
 
     class Meta:
         verbose_name = 'Usuario'
@@ -95,5 +113,5 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return self.nom_usuario
 
     @property
-    def id(self):
+    def pk(self):
         return self.rut_usuario
