@@ -14,8 +14,6 @@ export const decodeToken = (token) => {
     );
 
     const decodedToken = JSON.parse(jsonPayload);
-    console.log(decodedToken.role)
-    console.log(jsonPayload)
     return {
       ...decodedToken,
       role: decodedToken.role || 'usuario' // Valor predeterminado 'usuario' si no hay rol

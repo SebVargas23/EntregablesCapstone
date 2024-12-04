@@ -15,8 +15,8 @@
   h3 {
     text-align: center;
     color: #333;  /* Título en color gris oscuro */
-    opacity: 0;
-    animation: fadeIn 1s forwards 0.5s;  /* Animación para el título */
+    opacity: 1;
+    /* animation: fadeIn 1s forwards 0.5s;  Animación para el título */
   }
   
   /* Animación para el título */

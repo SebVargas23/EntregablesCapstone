@@ -139,9 +139,7 @@ def definir_costo(ticket_id=None):
         for ticket in tickets:
             try:
                 fecha_costo = localtime()
-                print("fecha del costo", fecha_costo)
                 costo_instance = getattr(ticket, 'costos', None)
-                print("revisando instancia de costo para ticket :",ticket.id )
                 if costo_instance:
                     logger.info(f"Updating existing Costo instance: {costo_instance}")
                     costo_instance.save()
@@ -151,13 +149,11 @@ def definir_costo(ticket_id=None):
                     logger.info(f"on: definir_costo. Current year and month: {localtime().strftime('%Y/%m')}")
                    
                     #after getting the look up date get or create a presupuesto ti object
-                    print("definiendo presupuesto como ",fecha_costo)
                     presupuesto_ti, created = PresupuestoTI.objects.get_or_create(
                         fecha_presupuesto__month=fecha_costo.month,
                         fecha_presupuesto__year=fecha_costo.year,
                         defaults={'fecha_presupuesto': fecha_costo}
                     )
-                    print("! punto de control post presupuesto_ti")
                     if created:
                         # If the object was created, log that the record was created
                         presupuesto_ti.save()
@@ -184,10 +180,6 @@ def definir_costo(ticket_id=None):
         logger.error(f"on: definir_costo. Error processing tickets: {str(e)}")
         
 def calcular_presupuesto_gastado(date):
-    """
-    Calculates and updates the 'presupuesto_gastado' field for a given month and year.
-    This function can be called from anywhere without requiring an instance.
-    """
     try:
         logger.info(f"on: calcular_presupuesto_gastado. Starting presupuesto_gastado calculation for {date.strftime('%Y-%m-%d')}.")
         
@@ -196,7 +188,6 @@ def calcular_presupuesto_gastado(date):
         logger.info(f"on: calcular_presupuesto_gastado. Month standardized to {fecha_update.strftime('%Y-%m')}.")
 
         # Get or create the corresponding 'PresupuestoTI' for the given month
-        print("buscando presupuesto o creando uno nuevo")
         presupuesto_ti, created = PresupuestoTI.objects.get_or_create(
             fecha_presupuesto__year=fecha_update.year,
             fecha_presupuesto__month=fecha_update.month,

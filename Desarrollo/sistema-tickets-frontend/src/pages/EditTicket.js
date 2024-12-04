@@ -12,9 +12,9 @@ const EditTicket = ({ userRole }) => {
     const [estados, setEstados] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [feedback, setFeedback] = useState({
+    const [evaluacion, setFeedback] = useState({
         nota: 3, // Valor predeterminado
-        comentario: '',
+        feedback: '',
     });
 
     const emojis = [
@@ -35,7 +35,7 @@ const EditTicket = ({ userRole }) => {
             }
 
             try {
-                const [ticketRes, categoriasRes, prioridadesRes, estadosRes] = await Promise.all([
+                const [ticketRes, categoriasRes, prioridadesRes, estadosRes, feedbackRes] = await Promise.all([
                     apiClient.get(`/tickets/${id}/`, {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
@@ -48,19 +48,20 @@ const EditTicket = ({ userRole }) => {
                     apiClient.get('/estados/', {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
+                    apiClient.get(`/tickets/feedback/${id}/`,{
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
                 ]);
 
                 setTicket(ticketRes.data);
                 setCategorias(categoriasRes.data);
                 setPrioridades(prioridadesRes.data);
                 setEstados(estadosRes.data);
-
-                if (ticketRes.data.evaluacion) {
-                    setFeedback({
-                        nota: ticketRes.data.evaluacion.nota || 3,
-                        comentario: ticketRes.data.evaluacion.feedback || '',
-                    });
-                }
+                console.log(feedbackRes.data)
+                setFeedback({
+                    nota: feedbackRes.data.nota,
+                    feedback: feedbackRes.data.feedback,
+                });
             } catch (err) {
                 console.error('Error al obtener los datos:', err);
                 setError('Hubo un problema al cargar los datos.');
@@ -73,7 +74,7 @@ const EditTicket = ({ userRole }) => {
     }, [id, navigate]);
 
     if (loading) return <p>Cargando...</p>;
-    if (error) return <p>{error}</p>;
+    if (error) return <p>{error}</p>
 
     const isReadOnly = userRole !== 'admin';
 
@@ -134,20 +135,20 @@ const EditTicket = ({ userRole }) => {
 
     const handleSubmitFeedback = async () => {
         const token = localStorage.getItem('token');
-        console.log('Feedback enviado:', feedback);
+        console.log('Feedback enviado:', evaluacion);
 
-        if (!feedback.nota) {
-            alert('Por favor, selecciona una calificación antes de enviar tu feedback.');
+        if (!evaluacion.nota) {
+            alert('Por favor, selecciona una calificación antes de enviar tu evaluacion.');
             return;
         }
 
         try {
-            await apiClient.post(`/tickets/${id}/feedback/`, feedback, {
+            await apiClient.patch(`/tickets/feedback/${id}/`, evaluacion, {
                 headers: {  
                     Authorization: `Bearer ${token}`,
                 },
             });
-            alert('Gracias por tu feedback.');
+            alert('Gracias por tu evaluacion.');
 
             // Recargar el ticket para mostrar el feedback actualizado
             const response = await apiClient.get(`/tickets/${id}/`, {
@@ -158,12 +159,12 @@ const EditTicket = ({ userRole }) => {
             if (response.data.evaluacion) {
                 setFeedback({
                     nota: response.data.evaluacion.nota,
-                    comentario: response.data.evaluacion.feedback,
+                    feedback: response.data.evaluacion.feedback,
                 });
             }
         } catch (error) {
             console.error('Error al enviar el feedback:', error);
-            alert('Hubo un problema al enviar tu feedback.');
+            alert('Hubo un problema al enviar tu evaluacion.');
         }
     };
 
@@ -171,6 +172,7 @@ const EditTicket = ({ userRole }) => {
 
     return (
         <div className="ticket-section-container">
+            
             <h2>🎫 {isReadOnly ? 'Ver Ticket' : 'Editar Ticket'}</h2>
             <form>
                 <div className="input-group">
@@ -187,7 +189,7 @@ const EditTicket = ({ userRole }) => {
                 <div className="input-group">
                     <label>Comentario:</label>
                     <textarea
-                        name="comentario"
+                        name="comen tario"
                         value={ticket.comentario || ''}
                         readOnly={isReadOnly}
                         onChange={(e) => setTicket({ ...ticket, comentario: e.target.value })}
@@ -262,9 +264,9 @@ const EditTicket = ({ userRole }) => {
                             <h3>📝 Evaluación del Ticket</h3>
                             <p>
                                 Calificación Guardada: 
-                                {emojis.find((e) => e.value === feedback.nota)?.label || 'No calificado'}
+                                {emojis.find((e) => e.value === evaluacion.nota)?.label || 'No calificado'}
                             </p>
-                            <p>Comentario Guardado: {feedback.comentario || 'Sin comentarios'}</p>
+                            <p>Comentario Guardado: {evaluacion.feedback || 'Sin comentarios'}</p>
                         </div>
 
                         <div className="feedback-section">
@@ -272,16 +274,16 @@ const EditTicket = ({ userRole }) => {
                             <div className="meter-bar">
                             <div
                                 className="meter-indicator"
-                                style={{ left: updateMeterPosition(feedback.nota) }}
+                                style={{ left: updateMeterPosition(evaluacion.nota) }}
                             ></div>
                         </div>
                             <div className="feedback-emojis">
                                 {emojis.map((emoji) => (
                                     <span
                                         key={emoji.value}
-                                        className={`emoji ${feedback.nota === emoji.value ? 'selected' : ''}`}
+                                        className={`emoji ${evaluacion.nota === emoji.value ? 'selected' : ''}`}
                                         style={{ color: emoji.color }}
-                                        onClick={() => setFeedback({ ...feedback, nota: emoji.value })}
+                                        onClick={() => setFeedback({ ...evaluacion, nota: emoji.value })}
                                         title={`Nota ${emoji.value}`}
                                     >
                                         {emoji.label}
@@ -292,15 +294,15 @@ const EditTicket = ({ userRole }) => {
                                 <label>Comentarios:</label>
                                 <textarea
                                     name="comentario"
-                                    value={feedback.comentario}
-                                    onChange={(e) => setFeedback({ ...feedback, comentario: e.target.value })}
+                                    value={evaluacion.feedback}
+                                    onChange={(e) => setFeedback({ ...evaluacion, feedback: e.target.value })}
                                 />
                             </div>
                             <button
                                 type="button"
                                 className="submit-feedback-button"
                                 onClick={handleSubmitFeedback}
-                                disabled={!feedback.nota}
+                                disabled={!evaluacion.nota}
                             >
                                 Enviar Feedback
                             </button>

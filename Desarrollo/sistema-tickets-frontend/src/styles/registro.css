@@ -1,0 +1,33 @@
+/* Animación de aparición del mensaje de error */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px); /* Inicia un poco más arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0); /* Se mueve a su posición final */
+    }
+}
+
+/* Estilo del tooltip con animación */
+.error-tooltip {
+    position: absolute; /* Permite posicionar el mensaje en relación al campo */
+    background-color: #ff4d4f; /* Color de fondo rojo */
+    color: white; /* Color del texto */
+    font-size: 0.5rem; /* Tamaño de la fuente */
+    padding: 0.5rem; /* Espaciado interno */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    z-index: 10; /* Para asegurarse de que el mensaje esté por encima de otros elementos */
+    transform: translateX(-50%); /* Centra el mensaje con respecto al campo */
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    opacity: 0; /* Inicialmente invisible */
+    animation: fadeIn 0.3s ease-in-out forwards; /* Aplica la animación */
+    margin-top: 10px; /* Un pequeño margen para separar del campo */
+    bottom: 100%; /* Coloca el mensaje encima del campo */
+    left: 50%; 
+    margin-bottom: 10px; /* Espaciado entre el mensaje y el campo */
+}
+
+

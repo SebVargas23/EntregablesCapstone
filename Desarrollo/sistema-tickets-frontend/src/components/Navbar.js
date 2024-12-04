@@ -15,6 +15,15 @@ function removeToken() {
   }
 }
 
+function getInitials(nombreCompleto) {
+  if (!nombreCompleto) return ""; // Verificar si está vacío
+  const nombres = nombreCompleto.split(" ");
+  const iniciales = nombres
+    .filter((parte) => parte.trim().length > 0) // Eliminar espacios extra
+    .map((parte) => parte[0].toUpperCase()); // Tomar la primera letra en mayúsculas
+  return iniciales.slice(0, 2).join(""); // Tomar máximo dos iniciales
+}
+
 const Navbar = ({ nombreUsuario }) => {
   return (
   <header className="navbar">
@@ -33,11 +42,11 @@ const Navbar = ({ nombreUsuario }) => {
     {/* User Info Section */}
     <div className="navbar-user-info">
       <span className="navbar-username">{nombreUsuario}</span>
-      <div className="navbar-avatar">CP</div>
+      <div className="navbar-avatar">{getInitials(nombreUsuario)}</div>
     </div>
     <button onClick={removeToken} 
     className="navbar-logout-button"
-    >Cerrar sesion</button>
+    >Cerrar Sesión</button>
   </header>
   )
 };

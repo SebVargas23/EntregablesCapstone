@@ -74,7 +74,7 @@ const SlaRelatedData = () => {
             <p><strong>Presupuesto Gastado:</strong></p>
             <p><strong>Fecha del Presupuesto:</strong></p>
             <p><strong>Presupuesto Restante:</strong></p>
-            <p><strong>presupuesto exedido:</strong></p>
+            <p><strong>Presupuesto Excedido:</strong></p>
           </div>
         </section>
         <section>
@@ -115,7 +115,7 @@ const SlaRelatedData = () => {
           <p><strong>Presupuesto Gastado:</strong> ${getResumenMonto(data.presupuesto.presupuesto_gastado)}</p>
           <p><strong>Fecha del Presupuesto:</strong> {data.presupuesto.fecha_presupuesto}</p>
           <p><strong>Presupuesto Restante:</strong> ${getResumenMonto(data.presupuesto.presupuesto_restante)}</p>
-          <p><strong>presupuesto exedido:</strong> {data.presupuesto.over_budget ? "Yes" : "No"}</p>
+          <p><strong>Presupuesto Excedido:</strong> {data.presupuesto.over_budget ? "Yes" : "No"}</p>
         </div>
       </section>
 

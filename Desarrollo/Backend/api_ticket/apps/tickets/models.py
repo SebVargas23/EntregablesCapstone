@@ -13,19 +13,19 @@ class Categoria(models.Model):
     sla_horas = models.IntegerField(default=0 , null= True, blank= True)
 
     def __str__(self):
-        return self.nom_categoria
+        return f"{self.id} - {self.nom_categoria} - duracion de SLA: {self.sla_horas}"
 
 class Prioridad(models.Model):
     num_prioridad = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.num_prioridad
+        return f"{self.id} - {self.num_prioridad}"
 
 class Estado(models.Model):
     nom_estado = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.nom_estado
+        return f"{self.id} - {self.nom_estado}"
 
 class Servicio(models.Model):
     titulo_servicio = models.CharField(max_length=20)
@@ -33,7 +33,7 @@ class Servicio(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)  # Relación con Categoria
 
     def __str__(self):
-        return self.titulo_servicio
+        return f" {self.id} - {self.titulo_servicio} - Costo : {self.costo}"
 
 class PresupuestoTI(models.Model):
     presupuesto_mensual = models.DecimalField(max_digits=12, decimal_places=2, default=1000000 ,  help_text="Monthly budget for the department")
@@ -54,7 +54,7 @@ class PresupuestoTI(models.Model):
             ]
 
     def __str__(self):
-        return f"{self.fecha_presupuesto.strftime('%Y-%m')} - Spent: {self.presupuesto_gastado} / Monthly Budget: {self.presupuesto_mensual}"
+        return f"{self.fecha_presupuesto.strftime('%Y-%m')} - Gastado: {self.presupuesto_gastado} / Presupuesto mensual: {self.presupuesto_mensual}"
 
     def clean(self):
         # Normalize the date to the first day of the month
@@ -128,7 +128,24 @@ class Ticket(models.Model):
     resolucion = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.titulo
+        return f"ID {self.id} ({self.estado.nom_estado}) :  {self.titulo} - estado: {self.sla_status} - propetario: {self.user.nom_usuario}"
+    def save(self, *args, **kwargs):
+        # Save the Ticket object first
+        super().save(*args, **kwargs)
+
+        # Check if an EvaluacionTicket already exists for this ticket
+        evaluacion, created = EvaluacionTicket.objects.get_or_create(
+            ticket=self,  # This is the ticket for which the evaluation is created or updated
+            defaults={'nota': 3, 'feedback': ''}  # This sets default values if the EvaluacionTicket is created
+        )
+        if not created:
+            # Optionally, you can update the EvaluacionTicket if needed
+            evaluacion.nota = 3  # You can set different logic for updating
+            evaluacion.feedback = ''
+            evaluacion.save()
+
+        return
+
 
 class FechaTicket(models.Model):
     fecha = models.DateTimeField()
@@ -220,7 +237,7 @@ class Costo(models.Model):
             models.UniqueConstraint(fields=['ticket', 'presupuesto_ti'], name='unique_costo_ticket_presupuesto')
         ]
     def __str__(self):
-        return f"Ticket ID {self.ticket.id} -Starting cost: {self.monto} - Final Cost: {self.monto_final}"
+        return f"Ticket ID {self.ticket.id} - {self.cierre} - Costo inicial: {self.monto} - Costo final: {self.monto_final}"
     #definir save or update
     def get_ticket_cost(self):
         """

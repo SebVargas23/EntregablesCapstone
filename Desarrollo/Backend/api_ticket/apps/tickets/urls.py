@@ -10,8 +10,8 @@ from .views import (
     TicketListCreateView, TicketDetailView,
     DetalleUsuarioTicketListCreateView, DetalleUsuarioTicketDetailView,
     FechaTicketListCreateView, FechaTicketDetailView,ClosedTicketListView,
-    sla_presupuestoView,
-    dashboard_stats,list_usuarios, create_or_update_evaluacion
+    sla_presupuestoView, retrieve_feedback,
+    dashboard_stats,list_usuarios
 )
 
 from rest_framework_simplejwt.views import (
@@ -77,7 +77,7 @@ urlpatterns = [
 
     path('usuarios/', list_usuarios, name='list_usuarios'),
 
-    path('tickets/<int:ticket_id>/feedback/', create_or_update_evaluacion, name='create_or_update_evaluacion'),
+    path('tickets/feedback/<int:ticket_id>/', retrieve_feedback.as_view(), name='retrieve_feedback'),
 ]
 
 DEBUG = True

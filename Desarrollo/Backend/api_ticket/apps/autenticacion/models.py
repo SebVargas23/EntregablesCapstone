@@ -20,7 +20,7 @@ class Departamento(models.Model):
     nom_departamento = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.nom_departamento   
+        return f"{self.nom_departamento}"   
       
 class Cargo(models.Model):
     nom_cargo = models.CharField(max_length=255)
@@ -110,7 +110,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Usuarios'
 
     def __str__(self):
-        return self.nom_usuario
+        return f"{self.rut_usuario}-{self.dv_rut_usuario} / Nombre: {self.nom_usuario} - {self.cargo} - {self.role}"
 
     @property
     def pk(self):

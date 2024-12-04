@@ -3,7 +3,7 @@ from logging.handlers import RotatingFileHandler
 
 # Create a logger object
 logger = logging.getLogger(__name__)  # This will use the name of the module it's used in
-logger.setLevel(logging.DEBUG)  # Set the default level to DEBUG
+logger.setLevel(logging.ERROR)  # Set the default level to DEBUG
 
 # Define a formatter for the log messages
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

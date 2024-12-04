@@ -233,7 +233,6 @@ class sla_presupuestoView(generics.ListAPIView):
         # Get the month and year from query parameters or default to the current month and year
         update_sla_status()
         fecha_request_str = request.data.get("fecha", None) # Expecting a date in "YYYY-MM-DD" format
-        print(" fecha recivida: ", fecha_request_str)
         if fecha_request_str:
             # Step 2: Try to parse the provided date if it exists
             try:
@@ -244,8 +243,6 @@ class sla_presupuestoView(generics.ListAPIView):
         else:
             # Default to the current date if 'date' is not provided
             fecha_request = localdate()
-            print("localdate:", localdate() )  # Current time in UTC
-            print("localtime:", localtime() )  # Get the current date (ignoring the time part)
         
         # Step 3: Extract month and year from the date
         month = fecha_request.month
@@ -276,10 +273,8 @@ class sla_presupuestoView(generics.ListAPIView):
                 creation_date = ticket.fechaticket_set.filter(tipo_fecha="Creacion").first()  # Adjust the filter logic
                 if creation_date:
                     horas_abierto = (localtime() - creation_date.fecha).total_seconds() / 3600
-                    print("horas que el ticket ha permanecido abierto: ", horas_abierto)
                 else:
                     horas_abierto = None
-                    print("no se ha encontrado una fecha de creacion para el ticket", creation_date)
                 # Collecting ticket data including title, sla_status, and cost
                 ticket_data = {
                     "id": ticket.id,
@@ -384,44 +379,8 @@ def list_usuarios(request):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
-def create_or_update_evaluacion(request, ticket_id):
-    try:
-        print(f"ID del Ticket: {ticket_id}")  # Log del ID
-        print("Datos recibidos del cliente:", request.data)  # Log de los datos recibidos
-
-        # Obtener el ticket relacionado
-        ticket = Ticket.objects.get(id=ticket_id)
-        print(f"Ticket encontrado: {ticket}")
-
-        # Validar que 'nota' esté presente
-        nota = request.data.get('nota')
-        if nota is None:
-            return Response({"error": "El campo 'nota' es obligatorio."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Obtener o crear la evaluación
-        evaluacion, created = EvaluacionTicket.objects.get_or_create(
-            ticket=ticket,
-            defaults={'nota': nota, 'feedback': request.data.get('feedback', '')}
-        )
-        print(f"Evaluación {'creada' if created else 'actualizada'}: {evaluacion}")
-
-        # Actualizar evaluación si ya existe
-        if not created:
-            serializer = EvaluacionTicketSerializer(evaluacion, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            print("Errores de validación del serializador:", serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Si se creó, retorna la evaluación creada
-        serializer = EvaluacionTicketSerializer(evaluacion)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    except Ticket.DoesNotExist:
-        print("El ticket no existe.")
-        return Response({"error": "Ticket no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        print("Error inesperado:", str(e))
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+class retrieve_feedback(generics.RetrieveUpdateAPIView):
+    queryset = EvaluacionTicket.objects.all()
+    serializer_class = EvaluacionTicketSerializer
+    lookup_field = "ticket_id"
+ 
